@@ -34,7 +34,7 @@ static class Display{
 	public static void Render(){
 		SDL_SetRenderDrawColor(renderer, 135, 206, 250, 255);
 		SDL_RenderClear(renderer);
-		//TODO: Render objects methods
+		Program.player.Render();
 		SDL_RenderPresent(renderer);
 	}
 

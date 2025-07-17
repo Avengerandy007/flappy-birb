@@ -5,6 +5,7 @@ using Window;
 class Program{
 	
 	static bool running;
+	public static Player player = new Player();
 	static void Main(){
 		running = true;
 		Console.WriteLine("Hello from shitty flappy bird!");
@@ -16,6 +17,9 @@ class Program{
 		while(running){
 			Display.Render();
 			PollEvents();
+			player.Update();
+
+			SDL.SDL_Delay(50);
 		}
 		Display.Clean();
 	}
@@ -25,6 +29,12 @@ class Program{
 			switch(e.type){
 				case SDL.SDL_EventType.SDL_QUIT:
 					running = false;
+					break;
+
+				case SDL.SDL_EventType.SDL_KEYDOWN:
+					if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_SPACE){
+						player.JumpEvent();
+					}
 					break;
 			}
 		}
