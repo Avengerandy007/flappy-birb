@@ -8,13 +8,16 @@ static class Display{
 	public static IntPtr window;
 	public static IntPtr renderer;
 
+	public const int windowMax = 1000;
+	public const int windowMin = 0;
+
 	public static void Setup(){
 
 		if (SDL_Init(SDL_INIT_VIDEO) < 0){
 			throw new Exception($"There was a problem intialising SDL video services: {SDL_GetError()}");
 		}
 
-		window = SDL_CreateWindow("Shitty version of Flappy Bird", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WindowFlags.SDL_WINDOW_SHOWN | SDL_WindowFlags.SDL_WINDOW_RESIZABLE);
+		window = SDL_CreateWindow("Shitty version of Flappy Bird", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1000, 1000, SDL_WindowFlags.SDL_WINDOW_SHOWN);
 		
 		if (window == IntPtr.Zero){
 			throw new Exception($"There was a problem definning the SDL window: {SDL_GetError()}");

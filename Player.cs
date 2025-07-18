@@ -41,7 +41,7 @@ class Player{
 	}
 
 	void Jump(){
-		if ((jumpInitPos.Y - position.Y) > 240) jumping = false;
+		if ((jumpInitPos.Y - position.Y) > 100) jumping = false;
 		position.Y -= speed;
 	}
 
