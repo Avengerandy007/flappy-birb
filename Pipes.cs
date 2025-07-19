@@ -89,7 +89,7 @@ class Generic{
 class UpPipe : Generic{
 	public UpPipe(){
 		Random rGapYmin = new Random();
-		height = rGapYmin.Next(250, 430);
+		height = rGapYmin.Next(250, 400);
 		rect.h = height;
 		rect.y = Window.Display.windowMin;
 		pos = new IntVector2(rect.x, rect.y);
@@ -113,7 +113,7 @@ class UpPipe : Generic{
 class DownPipe : Generic{
 	public DownPipe(){
 		Random rGapYmax = new Random();
-		height = rGapYmax.Next(250, 430);
+		height = rGapYmax.Next(250, 400);
 		rect.h = height;
 		rect.y = Window.Display.windowMax - height;
 		pos = new IntVector2(rect.x, rect.y);

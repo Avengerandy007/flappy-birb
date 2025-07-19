@@ -44,6 +44,8 @@ class Player{
 		}else Jump();
 		rect.y = position.Y;
 		CheckForPipes();
+		CheckForFloor();
+		CheckForRoof();
 	}
 
 	void Gravity(ref IntVector2 currPos){
@@ -75,6 +77,16 @@ class Player{
 				GameOver();
 			}
 		}
+	}
+
+	void CheckForRoof(){
+		if (position.Y <= Display.windowMin && jumping) jumping = false;
+	}
+
+	void CheckForFloor(){
+		int Ymax = position.Y + rect.h;
+
+		if (Ymax >= Display.windowMax) GameOver();
 	}
 
 	void GameOver(){
