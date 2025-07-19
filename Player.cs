@@ -10,6 +10,8 @@ class Player{
 	int g = 2;
 	IntVector2 jumpInitPos;
 
+	private IntVector2 spawnPos = new IntVector2(200, 240);
+
 	SDL_Rect rect;
 
 	IntPtr surface;
@@ -17,7 +19,7 @@ class Player{
 	
 
 	public Player(){
-		position = new IntVector2(200, 240);
+		position = spawnPos;
 		rect = new SDL_Rect{
 			x = position.X,
 			y = position.Y,
@@ -41,6 +43,7 @@ class Player{
 			Gravity(ref position);
 		}else Jump();
 		rect.y = position.Y;
+		CheckForPipes();
 	}
 
 	void Gravity(ref IntVector2 currPos){
@@ -64,5 +67,31 @@ class Player{
 
 	public void ClearTexture(){
 		SDL_DestroyTexture(texture);
+	}
+	
+	void CheckForPipes(){
+		foreach(var pipe in Pipes.Generic.totalPipes){
+			if (ChekCollisions(pipe.rect)){
+				GameOver();
+			}
+		}
+	}
+
+	void GameOver(){
+		foreach(var pipe in Pipes.Generic.totalPipes){
+			pipe.exists = false;
+		}
+		Program.player.position = spawnPos;
+	}
+
+	bool ChekCollisions(SDL_Rect objB){
+		int Xmax = position.X + rect.w;
+		int Ymax = position.Y + rect.h;
+		int objBYmax = objB.y + objB.h;
+		int objBXmax = objB.x + objB.w;
+
+
+		if (((position.Y >= objB.y && position.Y <= objBYmax) || (Ymax >= objB.y  && Ymax <= objBYmax)) && (Xmax >= objB.x && position.X <= objBXmax)) return true;
+		else return false;
 	}
 }

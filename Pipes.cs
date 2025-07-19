@@ -1,4 +1,3 @@
-using System;
 using Vectors;
 using static SDL2.SDL;
 using static SDL2.SDL_image;
@@ -7,8 +6,8 @@ namespace Pipes;
 class Generic{
 	protected IntVector2 pos;
 	protected int height;
-	protected SDL_Rect rect;
-	bool exists;
+	public SDL_Rect rect;
+	public bool exists;
 
 	protected IntPtr surface;
 	protected IntPtr texture;
@@ -17,7 +16,7 @@ class Generic{
 
 	const int timeBetweenPipes = 3;
 
-	static List<Generic> totalPipes = new List<Generic>();
+	public static List<Generic> totalPipes = new List<Generic>();
 	static System.Diagnostics.Stopwatch pipeStopwatch = new System.Diagnostics.Stopwatch();
 	static System.Diagnostics.Stopwatch moveStopwatch = new System.Diagnostics.Stopwatch();
 
