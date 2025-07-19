@@ -10,6 +10,7 @@ class Program{
 		running = true;
 		Console.WriteLine("Hello from shitty flappy bird!");
 		Display.Setup();
+		player.SetupTexture();
 		Update();
 	}
 

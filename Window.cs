@@ -44,6 +44,7 @@ static class Display{
 	public static void Clean(){
 		SDL_DestroyWindow(window);
 		SDL_DestroyRenderer(renderer);
+		Program.player.ClearTexture();
 		IMG_Quit();
 		SDL_Quit();
 	}
