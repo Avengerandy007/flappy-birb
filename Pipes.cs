@@ -64,21 +64,19 @@ class Generic{
 class UpPipe : Generic{
 	public UpPipe(){
 		Random rGapYmin = new Random();
-		height = rGapYmin.Next(250, 450);
+		height = rGapYmin.Next(250, 430);
 		rect.h = height;
 		rect.y = Window.Display.windowMin;
 		pos = new IntVector2(rect.x, rect.y);
-		Console.WriteLine("new UpPipe");
 	}
 }
 
 class DownPipe : Generic{
 	public DownPipe(){
 		Random rGapYmax = new Random();
-		height = rGapYmax.Next(250, 450);
+		height = rGapYmax.Next(250, 430);
 		rect.h = height;
 		rect.y = Window.Display.windowMax - height;
 		pos = new IntVector2(rect.x, rect.y);
-		Console.WriteLine("new DownPipe");
 	}
 }
