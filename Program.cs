@@ -21,8 +21,9 @@ class Program{
 			PollEvents();
 			player.Update();
 			Pipes.Generic.CreatePipe();	
+			Pipes.Generic.Update();
 
-			SDL.SDL_Delay(50);
+			SDL.SDL_Delay(6);
 		}
 		Display.Clean();
 	}

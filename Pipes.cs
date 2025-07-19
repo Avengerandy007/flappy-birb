@@ -7,24 +7,27 @@ class Generic{
 	protected IntVector2 pos;
 	protected int height;
 	protected SDL_Rect rect;
+	bool exists;
 
-	const int width = 60;
+	const int width = 80;
 
-	const int timeBetweenPipes = 2;
+	const int timeBetweenPipes = 3;
 
 	static List<Generic> totalPipes = new List<Generic>();
 	static System.Diagnostics.Stopwatch pipeStopwatch = new System.Diagnostics.Stopwatch();
+	static System.Diagnostics.Stopwatch moveStopwatch = new System.Diagnostics.Stopwatch();
 
 	public static void SetupStopWatch(){
 		pipeStopwatch.Start();
+		moveStopwatch.Start();
 	}
 
 	public Generic(){
 		rect = new SDL_Rect{
-			x = 600,
-			//x = Window.Display.windowMax,
+			x = Window.Display.windowMax,
 			w = width,
 		};
+		exists = true;
 		totalPipes.Add(this);
 	}
 
@@ -35,6 +38,19 @@ class Generic{
 			SDL_RenderFillRect(Window.Display.renderer, ref pipe.rect);
 			SDL_SetRenderDrawColor(Window.Display.renderer, 135, 206, 250, 255);
 		}
+	}
+
+	public static void Update(){
+		Move();
+	}
+
+	static void Move(){
+		if (moveStopwatch.Elapsed.TotalMilliseconds <= 5) return;
+		foreach(var pipe in totalPipes){
+			pipe.pos.X -= 1;
+			pipe.rect.x = pipe.pos.X;
+		}
+		moveStopwatch.Restart();
 	}
 
 	public static void CreatePipe(){

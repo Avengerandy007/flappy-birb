@@ -7,7 +7,7 @@ class Player{
 	IntVector2 position;
 	bool jumping;
 	int speed = 10;
-	int g = 10;
+	int g = 2;
 	IntVector2 jumpInitPos;
 
 	SDL_Rect rect;
@@ -21,8 +21,8 @@ class Player{
 		rect = new SDL_Rect{
 			x = position.X,
 			y = position.Y,
-			w = 40,
-			h = 28,
+			w = 80,
+			h = 56
 		};
 	}
 
