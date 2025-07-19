@@ -38,6 +38,7 @@ static class Display{
 		SDL_SetRenderDrawColor(renderer, 135, 206, 250, 255);
 		SDL_RenderClear(renderer);
 		Program.player.Render();
+		Pipes.Generic.RenderPipes();
 		SDL_RenderPresent(renderer);
 	}
 

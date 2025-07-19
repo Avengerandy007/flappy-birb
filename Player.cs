@@ -39,7 +39,6 @@ class Player{
 	public void Update(){
 		if (!jumping){
 			Gravity(ref position);
-			Console.WriteLine($"Player X = {position.X} and Y = {position.Y}");
 		}else Jump();
 		rect.y = position.Y;
 	}

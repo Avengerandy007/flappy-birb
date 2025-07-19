@@ -11,6 +11,7 @@ class Program{
 		Console.WriteLine("Hello from shitty flappy bird!");
 		Display.Setup();
 		player.SetupTexture();
+		Pipes.Generic.SetupStopWatch();
 		Update();
 	}
 
@@ -19,6 +20,7 @@ class Program{
 			Display.Render();
 			PollEvents();
 			player.Update();
+			Pipes.Generic.CreatePipe();	
 
 			SDL.SDL_Delay(50);
 		}
