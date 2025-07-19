@@ -1,6 +1,7 @@
 using System;
 using Vectors;
 using static SDL2.SDL;
+using static SDL2.SDL_image;
 
 namespace Pipes;
 class Generic{
@@ -8,6 +9,9 @@ class Generic{
 	protected int height;
 	protected SDL_Rect rect;
 	bool exists;
+
+	protected IntPtr surface;
+	protected IntPtr texture;
 
 	const int width = 80;
 
@@ -33,15 +37,14 @@ class Generic{
 
 	public static void RenderPipes(){
 		foreach (var pipe in totalPipes){
-			SDL_SetRenderDrawColor(Window.Display.renderer, 0,  128, 0, 255);
-			SDL_RenderDrawRect(Window.Display.renderer, ref pipe.rect);
-			SDL_RenderFillRect(Window.Display.renderer, ref pipe.rect);
-			SDL_SetRenderDrawColor(Window.Display.renderer, 135, 206, 250, 255);
+			SDL_RenderCopy(Window.Display.renderer, pipe.texture, IntPtr.Zero, ref pipe.rect);
 		}
 	}
 
 	public static void Update(){
 		Move();
+		DestroyIfOutOfBounds();
+		ClearList();
 	}
 
 	static void Move(){
@@ -59,6 +62,29 @@ class Generic{
 		new DownPipe();
 		pipeStopwatch.Restart();
 	}
+
+	public static void DestoryAllTextures(){
+		foreach(var pipe in totalPipes){
+			pipe.CleanThisTexture();
+		}
+	}
+
+	public void CleanThisTexture(){
+		SDL_DestroyTexture(texture);
+	}
+
+	static void DestroyIfOutOfBounds(){
+		foreach(var pipe in totalPipes){
+			if (pipe.pos.X <= 0){
+				pipe.exists = false;
+				pipe.CleanThisTexture();
+			} 
+		}
+	}
+
+	public static void ClearList(){
+		totalPipes.RemoveAll((pipe => !pipe.exists));
+	}
 }
 
 class UpPipe : Generic{
@@ -68,6 +94,20 @@ class UpPipe : Generic{
 		rect.h = height;
 		rect.y = Window.Display.windowMin;
 		pos = new IntVector2(rect.x, rect.y);
+
+		SetTexture();
+	}
+
+	void SetTexture(){
+		surface = IMG_Load("data/Sprites/PipeUp.png");
+		
+		if (surface == IntPtr.Zero) throw new ArgumentException($"Could not load UP PIPE png in surface. {SDL_GetError()}");
+
+		texture = SDL_CreateTextureFromSurface(Window.Display.renderer, surface);
+		if (texture == IntPtr.Zero) throw new Exception($"Could not create UP PIPE texture. {SDL_GetError()}");
+
+		SDL_FreeSurface(surface);
+
 	}
 }
 
@@ -78,5 +118,19 @@ class DownPipe : Generic{
 		rect.h = height;
 		rect.y = Window.Display.windowMax - height;
 		pos = new IntVector2(rect.x, rect.y);
+
+		SetTexture();
+	}
+
+	void SetTexture(){
+		surface = IMG_Load("data/Sprites/PipeDown.png");
+		
+		if (surface == IntPtr.Zero) throw new ArgumentException($"Could not load UP PIPE png in surface. {SDL_GetError()}");
+
+		texture = SDL_CreateTextureFromSurface(Window.Display.renderer, surface);
+		if (texture == IntPtr.Zero) throw new Exception($"Could not create UP PIPE texture. {SDL_GetError()}");
+
+		SDL_FreeSurface(surface);
+
 	}
 }
