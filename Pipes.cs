@@ -16,6 +16,8 @@ class Generic{
 
 	const int timeBetweenPipes = 3;
 
+	protected static Random rHeight = new Random();
+
 	public static List<Generic> totalPipes = new List<Generic>();
 	static System.Diagnostics.Stopwatch pipeStopwatch = new System.Diagnostics.Stopwatch();
 	static System.Diagnostics.Stopwatch moveStopwatch = new System.Diagnostics.Stopwatch();
@@ -74,7 +76,7 @@ class Generic{
 
 	static void DestroyIfOutOfBounds(){
 		foreach(var pipe in totalPipes){
-			if (pipe.pos.X <= 0){
+			if (pipe.pos.X <= -80){
 				pipe.exists = false;
 				pipe.CleanThisTexture();
 			} 
@@ -88,8 +90,7 @@ class Generic{
 
 class UpPipe : Generic{
 	public UpPipe(){
-		Random rGapYmin = new Random();
-		height = rGapYmin.Next(250, 400);
+		height = rHeight.Next(250, 400);
 		rect.h = height;
 		rect.y = Window.Display.windowMin;
 		pos = new IntVector2(rect.x, rect.y);
@@ -112,8 +113,7 @@ class UpPipe : Generic{
 
 class DownPipe : Generic{
 	public DownPipe(){
-		Random rGapYmax = new Random();
-		height = rGapYmax.Next(250, 400);
+		height = rHeight.Next(250, 400);
 		rect.h = height;
 		rect.y = Window.Display.windowMax - height;
 		pos = new IntVector2(rect.x, rect.y);
@@ -124,10 +124,9 @@ class DownPipe : Generic{
 	void SetTexture(){
 		surface = IMG_Load("data/Sprites/PipeDown.png");
 		
-		if (surface == IntPtr.Zero) throw new ArgumentException($"Could not load UP PIPE png in surface. {SDL_GetError()}");
-
+		if (surface == IntPtr.Zero) throw new ArgumentException($"Could not load DOWN PIPE png in surface. {SDL_GetError()}");
 		texture = SDL_CreateTextureFromSurface(Window.Display.renderer, surface);
-		if (texture == IntPtr.Zero) throw new Exception($"Could not create UP PIPE texture. {SDL_GetError()}");
+		if (texture == IntPtr.Zero) throw new Exception($"Could not create DOWN PIPE texture. {SDL_GetError()}");
 
 		SDL_FreeSurface(surface);
 
