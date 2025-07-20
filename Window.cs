@@ -72,6 +72,7 @@ static class Display{
 		SDL_DestroyWindow(window);
 		SDL_DestroyRenderer(renderer);
 		Program.player.CleanUp();
+		Pipes.Generic.CleanUp();
 		SDL_DestroyTexture(bgTexture);
 		UI.CleanUp();
 		Mix_CloseAudio();

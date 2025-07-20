@@ -16,6 +16,9 @@ class Program{
 		player.SetupTexture();
 		UI.OpenFont();
 		Pipes.Generic.SetupStopWatch();
+
+		Pipes.Generic.FreeSurfaces();
+
 		Update();
 	}
 

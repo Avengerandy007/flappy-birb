@@ -21,6 +21,7 @@ namespace Audio{
 
 		public void Free(){
 			Mix_FreeChunk(file);
+			file = IntPtr.Zero;
 		}
 	}
 }

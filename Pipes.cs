@@ -11,10 +11,10 @@ namespace Pipes{
 
 		Pipes.Subcomponents.ScoreAdder scoreAdder;
 
-		protected static IntPtr surfaceUp = IMG_Load("data/Sprites/PipeUp.png");
-		protected static IntPtr surfaceDown = IMG_Load("data/Sprites/PipeDown.png");
-		protected static IntPtr textureUp =  SDL_CreateTextureFromSurface(Window.Display.renderer, surfaceUp);
-		protected static IntPtr textureDown = SDL_CreateTextureFromSurface(Window.Display.renderer, surfaceDown);
+		static IntPtr surfaceUp = IMG_Load("data/Sprites/PipeUp.png");
+		static IntPtr surfaceDown = IMG_Load("data/Sprites/PipeDown.png");
+		static IntPtr textureUp =  SDL_CreateTextureFromSurface(Window.Display.renderer, surfaceUp);
+		static IntPtr textureDown = SDL_CreateTextureFromSurface(Window.Display.renderer, surfaceDown);
 
 		const int width = 80;
 
@@ -72,15 +72,18 @@ namespace Pipes{
 		}
 
 		public static void CreatePipe(){
-			if (pipeStopwatch.Elapsed.TotalSeconds <= timeBetweenPipes) return;
+			if (pipeStopwatch.Elapsed.TotalSeconds <= timeBetweenPipes || totalPipes.Count > 4) return;
 			new UpPipe();
 			new DownPipe();
 			pipeStopwatch.Restart();
 		}
 
-		public static void DestoryAllTextures(){
+		public static void FreeSurfaces(){
 			SDL_FreeSurface(surfaceDown);
 			SDL_FreeSurface(surfaceUp);
+		}
+
+		public static void CleanUp(){
 			SDL_DestroyTexture(textureUp);
 			SDL_DestroyTexture(textureDown);
 		}
@@ -94,7 +97,11 @@ namespace Pipes{
 		}
 
 		public static void ClearList(){
-			totalPipes.RemoveAll((pipe => !pipe.exists));
+			for(int i = 0; i < totalPipes.Count; i++){
+				if (!totalPipes[i].exists){
+					totalPipes.RemoveAt(i);
+				}
+			}
 		}
 	}
 
