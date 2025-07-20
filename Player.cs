@@ -77,7 +77,7 @@ class Player{
 
 	public void CleanUp(){
 		SDL_DestroyTexture(texture);
-		if (jumpSound != null) jumpSound.Free();
+		if (jumpSound != null)jumpSound.Free();
 	}
 	
 	void CheckForPipes(){

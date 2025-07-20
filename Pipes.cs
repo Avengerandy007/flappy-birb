@@ -13,7 +13,8 @@ namespace Pipes{
 
 		protected static IntPtr surfaceUp = IMG_Load("data/Sprites/PipeUp.png");
 		protected static IntPtr surfaceDown = IMG_Load("data/Sprites/PipeDown.png");
-		protected IntPtr texture;
+		protected static IntPtr textureUp =  SDL_CreateTextureFromSurface(Window.Display.renderer, surfaceUp);
+		protected static IntPtr textureDown = SDL_CreateTextureFromSurface(Window.Display.renderer, surfaceDown);
 
 		const int width = 80;
 
@@ -42,7 +43,8 @@ namespace Pipes{
 
 		public static void RenderPipes(){
 			foreach (var pipe in totalPipes){
-				SDL_RenderCopy(Window.Display.renderer, pipe.texture, IntPtr.Zero, ref pipe.rect);
+				if (pipe is UpPipe) SDL_RenderCopy(Window.Display.renderer, textureUp, IntPtr.Zero, ref pipe.rect);
+				else SDL_RenderCopy(Window.Display.renderer, textureDown, IntPtr.Zero, ref pipe.rect);
 			}
 		}
 
@@ -77,22 +79,16 @@ namespace Pipes{
 		}
 
 		public static void DestoryAllTextures(){
-			foreach(var pipe in totalPipes){
-				pipe.CleanThisTexture();
-			}
 			SDL_FreeSurface(surfaceDown);
 			SDL_FreeSurface(surfaceUp);
-		}
-
-		public void CleanThisTexture(){
-			SDL_DestroyTexture(texture);
+			SDL_DestroyTexture(textureUp);
+			SDL_DestroyTexture(textureDown);
 		}
 
 		static void DestroyIfOutOfBounds(){
 			foreach(var pipe in totalPipes){
 				if (pipe.pos.X <= -80){
 					pipe.exists = false;
-					pipe.CleanThisTexture();
 				} 
 			}
 		}
@@ -108,13 +104,6 @@ namespace Pipes{
 			rect.h = height;
 			rect.y = Window.Display.windowMin;
 			pos = new IntVector2(rect.x, rect.y);
-
-			SetTexture();
-		}
-
-		void SetTexture(){
-			texture = SDL_CreateTextureFromSurface(Window.Display.renderer, surfaceUp);
-			if (texture == IntPtr.Zero) throw new Exception($"Could not create UP PIPE texture. {SDL_GetError()}");
 		}
 	}
 
@@ -124,14 +113,6 @@ namespace Pipes{
 			rect.h = height;
 			rect.y = Window.Display.windowMax - height;
 			pos = new IntVector2(rect.x, rect.y);
-
-			SetTexture();
-		}
-
-		void SetTexture(){
-			
-			texture = SDL_CreateTextureFromSurface(Window.Display.renderer, surfaceDown);
-			if (texture == IntPtr.Zero) throw new Exception($"Could not create DOWN PIPE texture. {SDL_GetError()}");
 		}
 	}
 }
