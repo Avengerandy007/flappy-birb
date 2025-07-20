@@ -4,11 +4,13 @@ using static SDL2.SDL;
 using static SDL2.SDL_image;
 
 class Player{
-	IntVector2 position;
+	public IntVector2 position;
 	bool jumping;
 	int speed = 10;
 	int g = 2;
 	IntVector2 jumpInitPos;
+
+	public float score = 0;
 
 	private IntVector2 spawnPos = new IntVector2(200, 240);
 
@@ -94,6 +96,7 @@ class Player{
 			pipe.exists = false;
 		}
 		Program.player.position = spawnPos;
+		score = 0;
 	}
 
 	bool ChekCollisions(SDL_Rect objB){

@@ -42,6 +42,10 @@ static class Display{
 			throw new Exception($"There was a problem initialising SDL image services: {SDL_GetError()}");
 		}
 
+		if (TTF_Init() < 0){
+			throw new Exception($"There was a problem intialising SDL text services: {SDL_GetError()}");
+		}
+
 		IntPtr bgSurface = IMG_Load("data/Sprites/Background.png");
 
 		bgTexture = SDL_CreateTextureFromSurface(renderer, bgSurface);
@@ -53,6 +57,7 @@ static class Display{
 		SDL_SetRenderDrawColor(renderer, 135, 206, 250, 255);
 		SDL_RenderClear(renderer);
 		SDL_RenderCopy(renderer, bgTexture, IntPtr.Zero, ref bgRect);
+		Program.score.Render();
 		Program.player.Render();
 		Pipes.Generic.RenderPipes();
 		SDL_RenderPresent(renderer);
@@ -63,7 +68,9 @@ static class Display{
 		SDL_DestroyRenderer(renderer);
 		Program.player.ClearTexture();
 		SDL_DestroyTexture(bgTexture);
+		UI.CleanUp();
 		IMG_Quit();
+		TTF_Quit();
 		SDL_Quit();
 	}
 }

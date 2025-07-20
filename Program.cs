@@ -6,11 +6,13 @@ class Program{
 	
 	static bool running;
 	public static Player player = new Player();
+	public static UI score = new UI("Score:", 0, 0, 100, 70);
 	static void Main(){
 		running = true;
 		Console.WriteLine("Hello from shitty flappy bird!");
 		Display.Setup();
 		player.SetupTexture();
+		UI.OpenFont();
 		Pipes.Generic.SetupStopWatch();
 		Update();
 	}
@@ -22,7 +24,7 @@ class Program{
 			player.Update();
 			Pipes.Generic.CreatePipe();	
 			Pipes.Generic.Update();
-
+			score.variableToDisplay = player.score;
 			SDL.SDL_Delay(6);
 		}
 		Display.Clean();
