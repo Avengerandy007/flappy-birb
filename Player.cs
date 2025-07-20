@@ -16,8 +16,8 @@ class Player{
 
 	SDL_Rect rect;
 
-	IntPtr surface;
-	IntPtr texture;
+	static IntPtr surface;
+	static IntPtr texture;
 	
 	Audio.Sound? jumpSound;
 

@@ -72,7 +72,7 @@ namespace Pipes{
 		}
 
 		public static void CreatePipe(){
-			if (pipeStopwatch.Elapsed.TotalSeconds <= timeBetweenPipes || totalPipes.Count > 4) return;
+			if (pipeStopwatch.Elapsed.TotalSeconds <= timeBetweenPipes || totalPipes.Count >= 8) return;
 			new UpPipe();
 			new DownPipe();
 			pipeStopwatch.Restart();

@@ -42,10 +42,18 @@ class UI{
 		if (texture == IntPtr.Zero) throw new Exception($"Couldn't create UI texture. {SDL_GetError()}");
 		SDL_FreeSurface(surface);
 		SDL_RenderCopy(Window.Display.renderer, texture, IntPtr.Zero, ref rect);
+		SDL_DestroyTexture(texture);
+		texture = IntPtr.Zero;
 	}
 
 	public static void CleanUp(){
-		foreach(var element in totalUIElements) SDL_DestroyTexture(element.texture);
+		foreach(var element in totalUIElements){
+			SDL_FreeSurface(element.surface);
+			SDL_DestroyTexture(element.texture);
+			element.texture = IntPtr.Zero;
+			element.surface = IntPtr.Zero;
+		} 
 		TTF_CloseFont(font);
+		font = IntPtr.Zero;
 	}
 }

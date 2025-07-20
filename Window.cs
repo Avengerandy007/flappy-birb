@@ -13,6 +13,7 @@ static class Display{
 	public const int windowMin = 0;
 
 	static IntPtr bgTexture;
+	static IntPtr bgSurface = IMG_Load("data/Sprites/Background.png");
 
 	static SDL_Rect bgRect = new SDL_Rect{
 		x = 0,
@@ -50,8 +51,6 @@ static class Display{
 		if (Mix_Init(0) < 0){
 			throw new Exception($"There was a problem intialising SDL sound services: {SDL_GetError()}");
 		}
-
-		IntPtr bgSurface = IMG_Load("data/Sprites/Background.png");
 
 		bgTexture = SDL_CreateTextureFromSurface(renderer, bgSurface);
 
