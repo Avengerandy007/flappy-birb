@@ -11,6 +11,15 @@ static class Display{
 	public const int windowMax = 1000;
 	public const int windowMin = 0;
 
+	static IntPtr bgTexture;
+
+	static SDL_Rect bgRect = new SDL_Rect{
+		x = 0,
+		y = 0,
+		w = 1000,
+		h = 1000
+	};
+
 	public static void Setup(){
 
 		if (SDL_Init(SDL_INIT_VIDEO) < 0){
@@ -32,11 +41,18 @@ static class Display{
 		if (IMG_Init(IMG_InitFlags.IMG_INIT_JPG) < 0){
 			throw new Exception($"There was a problem initialising SDL image services: {SDL_GetError()}");
 		}
+
+		IntPtr bgSurface = IMG_Load("data/Sprites/Background.png");
+
+		bgTexture = SDL_CreateTextureFromSurface(renderer, bgSurface);
+
+		SDL_FreeSurface(bgSurface);
 	}
 	
 	public static void Render(){
 		SDL_SetRenderDrawColor(renderer, 135, 206, 250, 255);
 		SDL_RenderClear(renderer);
+		SDL_RenderCopy(renderer, bgTexture, IntPtr.Zero, ref bgRect);
 		Program.player.Render();
 		Pipes.Generic.RenderPipes();
 		SDL_RenderPresent(renderer);
@@ -46,6 +62,7 @@ static class Display{
 		SDL_DestroyWindow(window);
 		SDL_DestroyRenderer(renderer);
 		Program.player.ClearTexture();
+		SDL_DestroyTexture(bgTexture);
 		IMG_Quit();
 		SDL_Quit();
 	}
