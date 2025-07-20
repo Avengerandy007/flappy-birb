@@ -1,6 +1,7 @@
 using static SDL2.SDL;
 using static SDL2.SDL_ttf;
 using static SDL2.SDL_image;
+using static SDL2.SDL_mixer;
 
 
 namespace Window;
@@ -46,6 +47,10 @@ static class Display{
 			throw new Exception($"There was a problem intialising SDL text services: {SDL_GetError()}");
 		}
 
+		if (Mix_Init(0) < 0){
+			throw new Exception($"There was a problem intialising SDL sound services: {SDL_GetError()}");
+		}
+
 		IntPtr bgSurface = IMG_Load("data/Sprites/Background.png");
 
 		bgTexture = SDL_CreateTextureFromSurface(renderer, bgSurface);
@@ -66,9 +71,11 @@ static class Display{
 	public static void Clean(){
 		SDL_DestroyWindow(window);
 		SDL_DestroyRenderer(renderer);
-		Program.player.ClearTexture();
+		Program.player.CleanUp();
 		SDL_DestroyTexture(bgTexture);
 		UI.CleanUp();
+		Mix_CloseAudio();
+		Mix_Quit();
 		IMG_Quit();
 		TTF_Quit();
 		SDL_Quit();

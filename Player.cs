@@ -19,6 +19,7 @@ class Player{
 	IntPtr surface;
 	IntPtr texture;
 	
+	Audio.Sound? jumpSound;
 
 	public Player(){
 		position = spawnPos;
@@ -28,6 +29,10 @@ class Player{
 			w = 80,
 			h = 56
 		};
+	}
+
+	public void CreateSounds(){
+		jumpSound = new Audio.Sound("jump");
 	}
 
 	public void SetupTexture(){
@@ -58,6 +63,7 @@ class Player{
 		if (jumping) return;
 		jumping = true;
 		jumpInitPos = position;
+		if (jumpSound != null )jumpSound.Play();
 	}
 
 	void Jump(){
@@ -69,8 +75,9 @@ class Player{
 		SDL_RenderCopy(Display.renderer, texture, IntPtr.Zero, ref rect);
 	}
 
-	public void ClearTexture(){
+	public void CleanUp(){
 		SDL_DestroyTexture(texture);
+		if (jumpSound != null) jumpSound.Free();
 	}
 	
 	void CheckForPipes(){

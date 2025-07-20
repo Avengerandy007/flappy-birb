@@ -11,6 +11,8 @@ class Program{
 		running = true;
 		Console.WriteLine("Hello from shitty flappy bird!");
 		Display.Setup();
+		Audio.Controller.OpenSound();
+		player.CreateSounds();
 		player.SetupTexture();
 		UI.OpenFont();
 		Pipes.Generic.SetupStopWatch();

@@ -11,7 +11,8 @@ namespace Pipes{
 
 		Pipes.Subcomponents.ScoreAdder scoreAdder;
 
-		protected IntPtr surface;
+		protected static IntPtr surfaceUp = IMG_Load("data/Sprites/PipeUp.png");
+		protected static IntPtr surfaceDown = IMG_Load("data/Sprites/PipeDown.png");
 		protected IntPtr texture;
 
 		const int width = 80;
@@ -79,6 +80,8 @@ namespace Pipes{
 			foreach(var pipe in totalPipes){
 				pipe.CleanThisTexture();
 			}
+			SDL_FreeSurface(surfaceDown);
+			SDL_FreeSurface(surfaceUp);
 		}
 
 		public void CleanThisTexture(){
@@ -110,15 +113,8 @@ namespace Pipes{
 		}
 
 		void SetTexture(){
-			surface = IMG_Load("data/Sprites/PipeUp.png");
-			
-			if (surface == IntPtr.Zero) throw new ArgumentException($"Could not load UP PIPE png in surface. {SDL_GetError()}");
-
-			texture = SDL_CreateTextureFromSurface(Window.Display.renderer, surface);
+			texture = SDL_CreateTextureFromSurface(Window.Display.renderer, surfaceUp);
 			if (texture == IntPtr.Zero) throw new Exception($"Could not create UP PIPE texture. {SDL_GetError()}");
-
-			SDL_FreeSurface(surface);
-
 		}
 	}
 
@@ -133,14 +129,9 @@ namespace Pipes{
 		}
 
 		void SetTexture(){
-			surface = IMG_Load("data/Sprites/PipeDown.png");
 			
-			if (surface == IntPtr.Zero) throw new ArgumentException($"Could not load DOWN PIPE png in surface. {SDL_GetError()}");
-			texture = SDL_CreateTextureFromSurface(Window.Display.renderer, surface);
+			texture = SDL_CreateTextureFromSurface(Window.Display.renderer, surfaceDown);
 			if (texture == IntPtr.Zero) throw new Exception($"Could not create DOWN PIPE texture. {SDL_GetError()}");
-
-			SDL_FreeSurface(surface);
-
 		}
 	}
 }
